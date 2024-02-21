@@ -17,8 +17,8 @@
   --Dark-Gray: hsl(0, 0%, 52%); /* (Light Mode Input) */
   --Very-Light-Gray: hsl(0, 0%, 98%); /* (Light Mode Background) */
   --White: hsl(0, 0%, 100%); /* (Dark Mode Text & Light Mode Elements) */
+  font-size: 12px;
 }
-
 *,
 *::before,
 *::after {
@@ -26,7 +26,6 @@
   box-sizing: border-box;
   font-family: "Nunito Sans", sans-serif;
 }
-
 body {
   height: 100vh;
   width: 100%;
@@ -36,7 +35,6 @@ body {
   flex-direction: column;
   background-color: var(--Very-Dark-Blue);
 }
-
 #header {
   display: flex;
   flex-direction: column;
@@ -45,7 +43,6 @@ body {
   z-index: 1000;
   width: 100%;
 }
-
 #navbar {
   display: flex;
   flex-direction: row;
@@ -54,7 +51,6 @@ body {
   background-color: var(--Dark-Blue);
   padding-inline: 2rem;
 }
-
 #themeBtn {
   margin-left: auto;
   display: flex;
@@ -63,7 +59,6 @@ body {
   background-color: var(--Dark-Blue);
   border: none;
 }
-
 #themeBtn svg {
   fill: var(--White);
   height: 20px;
@@ -73,68 +68,90 @@ body {
 
 #searchForm {
   background-color: var(--Very-Dark-Blue);
+
   padding-block: 2.5rem;
   position: relative;
   display: flex;
   flex-direction: row;
   padding-inline: 8.6%;
+  height: 100%;
 }
-
+#searchForm:has(#searchBar){
+  #backButton{
+    display: none;
+    
+  }
+}
+#searchForm > * {
+  background-color: var(--Dark-Blue);
+  border-radius: 5px;
+}
 #searchBar {
   font-size: larger;
   width: 28rem;
   height: 2.5rem;
-  background-color: var(--Dark-Blue);
   align-self: flex-start;
-  border-radius: 5px;
   border: none;
   padding: 2rem;
 }
+#backButton {
+  height: 2.5rem;
+  width: 100px;
+
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+}
+#backButton > svg {
+  fill: var(--White);
+  height: 20px;
+  width: 20px;
+}
+#searchBar::placeholder {
+  color: var(--White);
+}
 
 #FilterByRegion {
-  background-color: var(--Dark-Blue);
   border: none;
-  border-radius: 5px;
+  height: 4rem;
+
   padding-inline: 2rem;
   margin-left: auto;
   font-size: larger;
 }
-
-#FilterByRegion:focus, #searchBar:focus {
+#FilterByRegion:focus,
+#searchBar:focus {
   outline: none;
 }
 
-main {
-  background-color: var(--Very-Dark-Blue);
-  margin-top: 20rem;
-  margin-inline: 5rem;
-  display: flex;
+#countryInfoContainer {
   align-items: center;
   justify-content: center;
-  position: relative;
+  background-color: var(--Very-Dark-Blue);
+  margin-top: 15rem;
+  margin-inline: 5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rem;
 }
-
-#countryInfoContainer {
-  overflow-y: hidden;
-  margin-top: 2rem;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5rem;
-}
-
 #countryInfoDiv {
   background: var(--Dark-Blue);
   border-radius: 5px;
-  width: 250px;
+  width: 300px;
+  height: 400px;
+  font-size: 16px;
 }
-
 #imgContainer {
-  height: 170px;
-  width: 250px;
+  width: 300px;
+  height: 200px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  background-position: center;
   background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
 }
 
@@ -145,51 +162,60 @@ main {
   justify-content: center;
   row-gap: 0.5rem;
 }
-
 #countryName {
   line-height: 3rem;
   font-weight: 800;
-  font-size: larger;
 }
-
 #countryDetailsDiv {
-  position: absolute;
+  margin-top: 20rem;
   display: flex;
   flex-direction: row;
+  padding-inline: 8.6%;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: center;
-  top: 400px;
+  font-size: 1.5rem;
   width: 100%;
 }
 
 #DetailsImgContainer {
-  grid-area: first;
-  height: 400px;
-  width: 500px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+  width: 35em;
+  height: 25em;
+  object-fit: fill;
 }
-
+#statsWrapper {
+  margin-left: 10rem;
+}
 #statsContainer {
-  grid-area: second;
   display: flex;
   flex-direction: row;
-  height: fit-content;
+  justify-content: flex-start;
+  margin-bottom: 2.5rem;
 }
-
-#DetailsCountryExtra, #DetailsCountryStats {
+#DetailsCountryStats {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  width: 100%;
+  flex-wrap: nowrap;
+  width: max-content;
+}
+#DetailsCountryName {
+  margin-bottom: 3rem;
 }
 
+#DetailsCountryExtra,
+#DetailsCountryStats {
+  display: flex;
+  flex-direction: column;
+  line-height: 3rem;
+}
+#DetailsCountryExtra {
+  margin-left: 10rem;
+}
 #DetailsCountryNeighbors {
-  margin-top: 2.5rem;
 }
-
-/*# sourceMappingURL=index.css.map */
+#borderTag,
+#borderCountries {
+}
+#borderTag {
+}
+#borderCountries {
+}
