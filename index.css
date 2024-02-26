@@ -12,17 +12,25 @@
 } */
 :root {
   --Dark-Blue: hsl(209, 23%, 22%); /* (Dark Mode Elements) */
-  --Very-Dark-Blue: hsl(207, 26%, 17%); /* (Dark Mode Background) */
   --Very-Dark-Blue: hsl(200, 15%, 8%); /* (Light Mode Text) */
   --Dark-Gray: hsl(0, 0%, 52%); /* (Light Mode Input) */
-  --Very-Light-Gray: hsl(0, 0%, 98%); /* (Light Mode Background) */
+  --Very-Light-Gray: hsl(0, 0%, 85%); /* (Light Mode Background) */
   --White: hsl(0, 0%, 100%); /* (Dark Mode Text & Light Mode Elements) */
   font-size: 12px;
+
+  --forground: var(--White);
+  --background:var(--Very-Dark-Blue);
+  --elements:var(--Dark-Blue);
+}
+.lightMode{
+  --forground: var(--Very-Dark-Blue);
+  --background:var(--Very-Light-Gray);
+  --elements:var(--White);
 }
 *,
 *::before,
 *::after {
-  color: var(--White);
+  color: var(--forground);
   box-sizing: border-box;
   font-family: "Nunito Sans", sans-serif;
 }
@@ -33,7 +41,7 @@ body {
   position: absolute;
   display: flex;
   flex-direction: column;
-  background-color: var(--Very-Dark-Blue);
+  background-color: var(--background);
 }
 #header {
   display: flex;
@@ -48,7 +56,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: var(--Dark-Blue);
+  background-color: var(--elements);
   padding-inline: 2rem;
 }
 #themeBtn {
@@ -56,18 +64,18 @@ body {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
-  background-color: var(--Dark-Blue);
+  background-color: var(--elements);
   border: none;
 }
 #themeBtn svg {
-  fill: var(--White);
+  fill: var(--forground);
   height: 20px;
   width: 20px;
   rotate: -25deg;
 }
 
 #searchForm {
-  background-color: var(--Very-Dark-Blue);
+  background-color: var(--background);
 
   padding-block: 2.5rem;
   position: relative;
@@ -83,7 +91,7 @@ body {
   }
 }
 #searchForm > * {
-  background-color: var(--Dark-Blue);
+  background-color: var(--elements);
   border-radius: 5px;
 }
 #searchBar {
@@ -107,12 +115,12 @@ body {
   border: none;
 }
 #backButton > svg {
-  fill: var(--White);
+  fill: var(--forground);
   height: 20px;
   width: 20px;
 }
 #searchBar::placeholder {
-  color: var(--White);
+  color: var(--forground);
 }
 
 #FilterByRegion {
@@ -131,7 +139,7 @@ body {
 #countryInfoContainer {
   align-items: center;
   justify-content: center;
-  background-color: var(--Very-Dark-Blue);
+  background-color: var(--background);
   margin-top: 15rem;
   margin-inline: 5rem;
   display: flex;
@@ -139,7 +147,7 @@ body {
   gap: 8rem;
 }
 #countryInfoDiv {
-  background: var(--Dark-Blue);
+  background: var(--elements);
   border-radius: 5px;
   width: 300px;
   height: 400px;

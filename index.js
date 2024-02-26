@@ -37,10 +37,7 @@ function getLanguages(country) {
   }
 }
 
-function formatNumber(num) {
-  return Math.round(num / 1000000)
-           .toLocaleString(); 
-}
+
 
 
 
@@ -201,3 +198,11 @@ fetchData("https://restcountries.com/v3.1/all")
     
   )
   .catch((error) => console.error("Error:", error));
+
+
+
+const themeBtn=document.getElementById("themeBtn");
+
+themeBtn.addEventListener("click",()=>{
+  body.classList.toggle("lightMode");
+});
