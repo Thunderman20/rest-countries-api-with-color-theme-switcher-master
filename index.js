@@ -17,16 +17,13 @@ async function fetchData(url) {
   }
 }
 function getCurrencies(country) {
-  // Check if the currencies object exists
   if (country.currencies) {
-    // Extract currency names from the currencies object
     const currencyNames = Object.values(country.currencies).map(
       (currency) => currency.name
     );
-    // Join currency names with comma separator
     return currencyNames.join(", ");
   } else {
-    return "Unknown"; // or any default value if currencies are not available
+    return "Unknown"; 
   }
 }
 function getLanguages(country) {
