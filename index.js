@@ -9,7 +9,7 @@ async function fetchData(url) {
   try {
     const response = await fetch(url);
     data = await response.json();
-  
+
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -183,4 +183,3 @@ const themeBtn = document.getElementById("themeBtn");
 themeBtn.addEventListener("click", () => {
   body.classList.toggle("lightMode");
 });
-
