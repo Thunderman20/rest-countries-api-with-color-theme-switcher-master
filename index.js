@@ -9,7 +9,7 @@ async function fetchData(url) {
   try {
     const response = await fetch(url);
     data = await response.json();
-    console.log(data);
+  
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -47,7 +47,7 @@ function getTopLevelDomain(country) {
   }
 }
 const searchBar = document.getElementById("searchBar");
-console.log(searchBar);
+
 searchBar.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -119,6 +119,7 @@ function createCountryInfoDiv(country) {
 function createDetailsPage(country) {
   const countryDetailsDiv = document.createElement("section");
   countryDetailsDiv.setAttribute("id", "countryDetailsDiv");
+
   countryDetailsDiv.innerHTML = `
   
     <img id="DetailsImgContainer" src="${
@@ -182,3 +183,4 @@ const themeBtn = document.getElementById("themeBtn");
 themeBtn.addEventListener("click", () => {
   body.classList.toggle("lightMode");
 });
+
