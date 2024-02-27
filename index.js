@@ -64,11 +64,7 @@ searchBar.addEventListener("keydown", (e) => {
     }
   }
 });
-function filter(data) {
-  console.log("filter");
 
-  return filteredData;
-}
 FilterByRegion.addEventListener("change", () => {
   const selectedOption = FilterByRegion.value;
 
