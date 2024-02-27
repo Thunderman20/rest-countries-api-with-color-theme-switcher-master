@@ -23,7 +23,7 @@ function getCurrencies(country) {
     );
     return currencyNames.join(", ");
   } else {
-    return "Unknown"; 
+    return "Unknown";
   }
 }
 function getLanguages(country) {
@@ -75,6 +75,7 @@ FilterByRegion.addEventListener("change", () => {
 
   renderCards(filteredData);
 });
+
 function renderCards(data) {
   countryInfoContainer.innerHTML = "";
 
@@ -112,6 +113,21 @@ function createCountryInfoDiv(country) {
   `;
 
   return countryInfoDiv;
+}
+function addBorderButtonListener(country) {
+  const borderButtons = document.querySelectorAll(".borderBtn");
+  borderButtons.forEach(button => {
+    button.addEventListener("click", async () => {
+      const borderCountryName = button.textContent;
+      const borderCountry = data.find(country => country.name.common === borderCountryName);
+      if (borderCountry) {
+        const countryDetailsDiv = createDetailsPage(borderCountry);
+        const existingDetailsPage = document.getElementById("countryDetailsDiv");
+        existingDetailsPage.replaceWith(countryDetailsDiv);
+        addBorderButtonListener(borderCountry);
+      }
+    });
+  });
 }
 function createDetailsPage(country) {
   const countryDetailsDiv = document.createElement("section");
@@ -162,12 +178,39 @@ function createDetailsPage(country) {
   </div>
   <div id="DetailsCountryNeighbors">
   <span  id="borderTag">Border Countries:</span>
-  <span  id="borderCountries">${
-    country.borders ? country.borders.join(", ") : "none"
-  }</span>
+  <span  id="borderCountries"></span>
   </div>
   </div>
 `;
+
+  const borderCountriesSpan =
+    countryDetailsDiv.querySelector("#borderCountries");
+
+    if (country.borders) {
+      Promise.all(
+        country.borders.map(async (border) => {
+          const response = await fetch(
+            `https://restcountries.com/v3.1/alpha/${border}`
+          );
+          const [borderCountry] = await response.json();
+          const borderCountryName = borderCountry.name.common;
+          const borderCountryTag = document.createElement("button");
+          borderCountryTag.classList.add("borderBtn");
+          borderCountryTag.id = borderCountryName.replace(/\s+/g, "");
+          borderCountryTag.textContent = borderCountryName;
+          borderCountriesSpan.appendChild(borderCountryTag);
+          borderCountriesSpan.appendChild(document.createTextNode(" "));
+        })
+      ).then(() => {
+        addBorderButtonListener(country);
+      }).catch((error) => {
+        console.error("Error fetching border countries:", error);
+        borderCountriesSpan.textContent = "Error fetching border countries";
+      });
+    } else {
+      borderCountriesSpan.textContent = "None";
+    }
+
   return countryDetailsDiv;
 }
 
@@ -180,3 +223,5 @@ const themeBtn = document.getElementById("themeBtn");
 themeBtn.addEventListener("click", () => {
   body.classList.toggle("lightMode");
 });
+
+

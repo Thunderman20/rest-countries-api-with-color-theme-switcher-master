@@ -218,12 +218,12 @@ body {
 #DetailsCountryExtra {
   margin-left: 10rem;
 }
-#DetailsCountryNeighbors {
-}
-#borderTag,
-#borderCountries {
-}
-#borderTag {
-}
-#borderCountries {
+
+.borderBtn{
+  all: unset;
+  height: 2.5rem;
+  background-color: var(--elements);
+  border-radius: 2px;
+  padding-inline: 1.5rem;
+  border: none;
 }
