@@ -2,20 +2,22 @@ let data;
 const body = document.body;
 const countryInfoContainer = document.createElement("section");
 countryInfoContainer.setAttribute("id", "countryInfoContainer");
-
+const spinner = document.createElement("div");
+spinner.setAttribute("id", "spinner");
 body.appendChild(countryInfoContainer);
 const FilterByRegion = document.getElementById("FilterByRegion");
+
 async function fetchData(url) {
   try {
     const response = await fetch(url);
     data = await response.json();
-
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     return await Promise.reject(error);
   }
 }
+
 function getCurrencies(country) {
   if (country.currencies) {
     const currencyNames = Object.values(country.currencies).map(
@@ -26,6 +28,7 @@ function getCurrencies(country) {
     return "Unknown";
   }
 }
+
 function getLanguages(country) {
   if (country.languages) {
     return Object.values(country.languages)
@@ -43,6 +46,7 @@ function getTopLevelDomain(country) {
     return "Unknown";
   }
 }
+
 const searchBar = document.getElementById("searchBar");
 
 searchBar.addEventListener("keydown", (e) => {
@@ -103,17 +107,18 @@ function createCountryInfoDiv(country) {
   </div>
     <div id="countryStats">
     <span id="countryName">${country.name.common}</span>
-    <span class="countryInfo" id="capital">Capital: ${country.capital}</span>
-    <span class="countryInfo" id="region">Region: ${country.region}</span>
-    <span class="countryInfo" id="population">Population: ${
+    <span class="countryInfo" id="capital">Capital:<span class="values"> ${country.capital}</span></span>
+    <span class="countryInfo" id="region">Region:<span class="values"> ${country.region}</span></span>
+    <span class="countryInfo" id="population">Population:<span class="values"> ${
       country.population ? country.population.toLocaleString() : "none"
-    }</span>
+    }</span></span>
    
     </div>
   `;
 
   return countryInfoDiv;
 }
+
 function addBorderButtonListener(country) {
   const borderButtons = document.querySelectorAll(".borderBtn");
   borderButtons.forEach((button) => {
@@ -131,80 +136,95 @@ function addBorderButtonListener(country) {
     });
   });
 }
+
+async function fetchBorderCountries(border) {
+  try {
+    const response = await fetch(
+      `https://restcountries.com/v3.1/alpha/${border}`
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch border country ${border}`);
+    }
+    const [borderCountry] = await response.json();
+    return borderCountry;
+  } catch (error) {
+    console.error("Error fetching border country:", error);
+    throw error;
+  }
+}
+
 function createDetailsPage(country) {
   const countryDetailsDiv = document.createElement("section");
   countryDetailsDiv.setAttribute("id", "countryDetailsDiv");
 
   countryDetailsDiv.innerHTML = `
-  
     <img id="DetailsImgContainer" src="${
       country.flags.svg ? country.flags.svg : country.flag
     }">
  
-  <div id="statsWrapper">
-  <h1 id="DetailsCountryName">${
-    country.name.common ? country.name.common : "none"
-  }</h1>
-  <div id="statsContainer">
-  
-  <div id="DetailsCountryStats">
-  <span class="DetailsCountryInfoExtra" id="nativeName"> Native Name: ${
-    Object.values(country.name.nativeName)[0].common
-  }</span>
-  <span class="DetailsCountryInfo" id="population">Population: ${
-    country.population ? country.population.toLocaleString() : "none"
-  }</span>
-  <span class="DetailsCountryInfo" id="region">Region: ${
-    country.region ? country.region : "none"
-  }</span>
-  <span class="DetailsCountryInfo" id="subregion">Sub Region: ${
-    country.subregion ? country.subregion : "none"
-  }</span>
-  <span class="DetailsCountryInfo" id="capital">Capital: ${
-    country.capital ? country.capital : "none"
-  }</span>
-  </div>
-  <div id="DetailsCountryExtra">
-  <span class="DetailsCountryInfoExtra" id="topLevelDomain">Top Level Domain: ${
-    country.tld ? country.tld.join(", ") : "none"
-  }</span>
-  <span class="DetailsCountryInfoExtra" id="currencies"> Currencies: ${
-    country.currencies ? getCurrencies(country) : "none"
-  }</span>
-    
-  <span class="DetailsCountryInfoExtra" id="languages">Languages: ${
-    country.languages ? getLanguages(country) : "none"
-  }</span>
- </span>
-  </div>
-  </div>
-  <div id="DetailsCountryNeighbors">
-  <span  id="borderTag">Border Countries:</span>
-  <span  id="borderCountries"></span>
-  </div>
-  </div>
-`;
+    <div id="statsWrapper">
+      <h1 id="DetailsCountryName">${
+        country.name.common ? country.name.common : "none"
+      }</h1>
+      <div id="statsContainer">
+        <div id="DetailsCountryStats">
+          <span class="DetailsCountryInfoExtra" id="nativeName"> Native Name:<span class="values"> ${
+            Object.values(country.name.nativeName)[0].common
+          }</span></span>
+          <span class="DetailsCountryInfo" id="population">Population:<span class="values"> ${
+            country.population ? country.population.toLocaleString() : "none"
+          }</span></span>
+          <span class="DetailsCountryInfo" id="region">Region:<span class="values"> ${
+            country.region ? country.region : "none"
+          }</span></span>
+          <span class="DetailsCountryInfo" id="subregion">Sub Region:<span class="values"> ${
+            country.subregion ? country.subregion : "none"
+          }</span></span>
+          <span class="DetailsCountryInfo" id="capital">Capital:<span class="values"> ${
+            country.capital ? country.capital : "none"
+          }</span></span>
+        </div>
+        <div id="DetailsCountryExtra">
+          <span class="DetailsCountryInfoExtra" id="topLevelDomain">Top Level Domain:<span class="values"> ${
+            country.tld ? country.tld.join(", ") : "none"
+          }</span></span>
+          <span class="DetailsCountryInfoExtra" id="currencies"> Currencies:<span class="values"> ${
+            country.currencies ? getCurrencies(country) : "none"
+          }</span></span>
+          <span class="DetailsCountryInfoExtra" id="languages">Languages:<span class="values"> ${
+            country.languages ? getLanguages(country) : "none"
+          }</span></span>
+        </div>
+      </div>
+      <div id="DetailsCountryNeighbors">
+        <span  id="borderTag">Border Countries:</span>
+        <span  id="borderCountries"></span>
+      </div>
+    </div>
+  `;
 
-  const borderCountriesSpan =
-    countryDetailsDiv.querySelector("#borderCountries");
+  const borderCountriesSpan = countryDetailsDiv.querySelector("#borderCountries");
 
   if (country.borders) {
-    Promise.all(
+    
+    Promise.allSettled(
       country.borders.map(async (border) => {
-        const response = await fetch(
-          `https://restcountries.com/v3.1/alpha/${border}`
-        );
-        const [borderCountry] = await response.json();
-        const borderCountryName = borderCountry.name.common;
-        const borderCountryTag = document.createElement("button");
-        borderCountryTag.classList.add("borderBtn");
-        borderCountryTag.id = borderCountryName.replace(/\s+/g, "");
-        borderCountryTag.textContent = borderCountryName;
-        borderCountriesSpan.appendChild(borderCountryTag);
-        borderCountriesSpan.appendChild(document.createTextNode(" "));
+        try {
+          const borderCountry = await fetchBorderCountries(border);
+          const borderCountryName = borderCountry.name.common;
+          const borderCountryTag = document.createElement("button");
+          borderCountryTag.classList.add("borderBtn");
+          borderCountryTag.textContent = borderCountryName;
+          borderCountriesSpan.appendChild(borderCountryTag);
+          borderCountriesSpan.appendChild(document.createTextNode(" "));
+          borderCountriesSpan.appendChild(spinner);
+        } catch (error) {
+          console.error("Error fetching border country:", error);
+        }
       })
     )
       .then(() => {
+        borderCountriesSpan.removeChild(spinner);
         addBorderButtonListener(country);
       })
       .catch((error) => {
